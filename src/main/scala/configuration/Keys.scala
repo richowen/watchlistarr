@@ -17,4 +17,7 @@ object Keys {
 
   val plexWatchlist1 = "plex.watchlist1"
   val plexWatchlist2 = "plex.watchlist2"
+
+  // Add the key for SONARR_SEASON_MONITORING
+  val sonarrSeasonMonitoring = "sonarr.seasonMonitoring"
 }

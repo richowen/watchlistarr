@@ -22,6 +22,7 @@ case class Configuration(
                           radarrRootFolder: String,
                           radarrBypassIgnored: Boolean,
                           plexWatchlistUrls: List[Uri]
+                          sonarrSeasonMonitoring: String
                         )
 
 object ConfigurationUtils {
@@ -38,6 +39,7 @@ object ConfigurationUtils {
       (radarrBaseUrl, radarrApiKey, radarrQualityProfileId, radarrRootFolder) = radarrConfig
       radarrBypassIgnored = configReader.getConfigOption(Keys.radarrBypassIgnored).exists(_.toBoolean)
       plexWatchlistUrls = getPlexWatchlistUrls(configReader)
+      sonarrSeasonMonitoring = configReader.getConfigOption(Keys.sonarrSeasonMonitoring).getOrElse("all")
     } yield Configuration(
       refreshInterval,
       sonarrBaseUrl,
@@ -51,6 +53,7 @@ object ConfigurationUtils {
       radarrRootFolder,
       radarrBypassIgnored,
       plexWatchlistUrls
+      sonarrSeasonMonitoring
     )
 
   private def getSonarrConfig(configReader: ConfigurationReader, client: HttpClient): IO[(Uri, String, Int, String)] = {
