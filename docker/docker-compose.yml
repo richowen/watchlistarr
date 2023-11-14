@@ -1,0 +1,26 @@
+version: '3'
+services:
+  watchlistarr:
+    image: watchlistarr:temp
+    container_name: Watchlistarr
+    network_mode: bridge
+    environment:
+      - TZ=Europe/London
+      - HOST_CONTAINERNAME=Watchlistarr
+      - SONARR_API_KEY=48b32adb31684d559b374b8f91d0f71f
+      - SONARR_BASE_URL=https://sonarr.richowen.me/
+      - RADARR_API_KEY=4bf54279a2e14dc484a87b901d2c0a52
+      - RADARR_BASE_URL=https://radarr.richowen.me/
+      - PLEX_WATCHLIST_URL_1=https://rss.plex.tv/3c136c37-ba5e-4792-bbde-81edb71fa924
+      - PLEX_WATCHLIST_URL_2=https://rss.plex.tv/aca2abd5-792c-4a9e-9491-b4006fde6ae7
+      - REFRESH_INTERVAL_SECONDS=10
+      - SONARR_QUALITY_PROFILE=Request
+      - SONARR_ROOT_FOLDER=/tv/
+      - RADARR_QUALITY_PROFILE=Request
+      - RADARR_ROOT_FOLDER=/movies/
+      - SONARR_BYPASS_IGNORED=true
+      - RADARR_BYPASS_IGNORED=true
+      - SONARR_SEASON_MONITORING=latestSeason
+    labels:
+      - net.unraid.docker.icon=https://github.com/nylonee/watchlistarr/blob/main/watchlistarr.png?raw=true
+    restart: unless-stopped  # Optional: Restart the container unless stopped

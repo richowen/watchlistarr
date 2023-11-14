@@ -147,7 +147,7 @@ object WatchlistSync {
     }
   }
 
-private case class SonarrPost(title: String, tvdbId: Long, qualityProfileId: Int, rootFolderPath: String, addOptions: SonarrAddOptions = SonarrAddOptions(), monitored: Boolean = true)
+private case class SonarrPost(title: String, tvdbId: Long, qualityProfileId: Int, rootFolderPath: String, addOptions: SonarrAddOptions, monitored: Boolean = true)
 
 private case class SonarrAddOptions(monitor: String, searchForCutoffUnmetEpisodes: Boolean = true, searchForMissingEpisodes: Boolean = true)
 
@@ -155,10 +155,14 @@ private def findTvdbId(strings: List[String]): Option[Long] =
   strings.find(_.startsWith("tvdb://")).flatMap(_.stripPrefix("tvdb://").toLongOption)
 
 private def addToSonarr(client: HttpClient)(config: Configuration)(item: Item): IO[Unit] = {
-  // Use the value of SONARR_SEASON_MONITORING environment variable
-  val sonarrAddOptions = SonarrAddOptions(config.sonarrSeasonMonitoring)
 
-  val show = SonarrPost(item.title, findTvdbId(item.guids).getOrElse(0L), config.sonarrQualityProfileId, config.sonarrRootFolder, sonarrAddOptions)
+  val show = SonarrPost(
+    item.title,
+    findTvdbId(item.guids).getOrElse(0L),
+    config.sonarrQualityProfileId,
+    config.sonarrRootFolder,
+    SonarrAddOptions(monitor = config.sonarrSeasonMonitoring) // Pass the season monitoring value to SonarrAddOptions
+  )
 
   ArrUtils.postToArr(client)(config.sonarrBaseUrl, config.sonarrApiKey, "series")(show.asJson).map {
     case Right(_) =>

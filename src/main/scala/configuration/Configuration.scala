@@ -21,8 +21,8 @@ case class Configuration(
                           radarrQualityProfileId: Int,
                           radarrRootFolder: String,
                           radarrBypassIgnored: Boolean,
-                          plexWatchlistUrls: List[Uri]
-                          sonarrSeasonMonitoring: String
+                          plexWatchlistUrls: List[Uri],
+                          sonarrSeasonMonitoring: String,
                         )
 
 object ConfigurationUtils {
@@ -52,7 +52,7 @@ object ConfigurationUtils {
       radarrQualityProfileId,
       radarrRootFolder,
       radarrBypassIgnored,
-      plexWatchlistUrls
+      plexWatchlistUrls,
       sonarrSeasonMonitoring
     )
 
